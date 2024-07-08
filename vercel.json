@@ -4,10 +4,6 @@
       {
         "src": "neplink/wsgi.py",
         "use": "@vercel/python"
-      },
-      {
-        "src": "build_files.sh",
-        "use": "@vercel/bash"
       }
     ],
     "routes": [
@@ -20,8 +16,12 @@
         "dest": "/media/$1"
       },
       {
+        "src": "/admin/(.*)",
+        "dest": "/neplink/wsgi.py/admin/$1"
+      },
+      {
         "src": "/(.*)",
-        "dest": "neplink/wsgi.py"
+        "dest": "/neplink/wsgi.py/$1"
       }
     ]
   }
