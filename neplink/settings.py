@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
+    'cloudinary',
     'django.contrib.sites',
     'allauth',
     'allauth.account',
@@ -154,8 +156,16 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 
 
 
-MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR/'media'
+# MEDIA_URL = 'media/'
+# MEDIA_ROOT = BASE_DIR/'media'
+
+DEFAULT_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'ddshvkxnx',
+    'API_KEY': '253238841645891',
+    'API_SECRET': 'eptOw4uBXqa1Td5wqW0-oqEazmQ',
+}
 
 
 # Default primary key field type
