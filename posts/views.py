@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from rest_framework import viewsets
 from .models import Post, Like, Comment
 from .serializers import PostSerializer, LikeSerializer, CommentSerializer
@@ -13,3 +14,6 @@ class LikeViewSet(viewsets.ModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+
+def home(request):
+    return render(request, 'index.html')
