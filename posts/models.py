@@ -1,11 +1,13 @@
 # posts/models.py
 from django.db import models
 from users.models import User
+from cloudinary.models import CloudinaryField
 
 class Post(models.Model):
     user = models.ForeignKey(User, related_name='posts', on_delete=models.CASCADE)
     content_text = models.TextField(blank=True, null=True)
     content_video = models.FileField(upload_to='videos/', blank=True, null=True)
+    content_image = models.ImageField(upload_to='images/', blank=True, null=True)
     content_audio = models.FileField(upload_to='audios/', blank=True, null=True)
     feeling_status = models.CharField(max_length=50, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
