@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ profile_user.username }}'s Profile</title>
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>{{ profile_user.username }}'s Profile</h1>
+        
+        <!-- Display user details -->
+        <p><strong>Email:</strong> {{ profile_user.email }}</p>
+        <p><strong>First Name:</strong> {{ profile_user.first_name }}</p>
+        <p><strong>Last Name:</strong> {{ profile_user.last_name }}</p>
+        
+        <!-- Friend-related actions -->
+        {% if request.user != profile_user %}
+            {% if is_friend %}
+                <form method="post" action="{% url 'users:remove_friend' profile_user.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Remove Friend</button>
+                </form>
+            {% elif friend_request_sent %}
+                <p>Friend request sent. Waiting for acceptance.</p>
+            {% elif friend_request_received %}
+                <form method="post" action="{% url 'users:accept_friend_request' friend_request_id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Accept Friend Request</button>
+                </form>
+            {% else %}
+                <form method="post" action="{% url 'users:send_friend_request' profile_user.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Add Friend</button>
+                </form>
+            {% endif %}
+        {% endif %}
+        
+        <!-- Friends -->
+        <h2>Friends</h2>
+        <div class="row">
+            {% for friend in friends %}
+                <div class="col-md-4">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ friend.username }}</h5>
+                            <p class="card-text">{{ friend.email }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Pending Requests Sent -->
+        <h2>Pending Requests Sent</h2>
+        <div class="row">
+            {% for request in pending_requests_sent %}
+                <div class="col-md-4">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ request.to_user.username }}</h5>
+                            <p class="card-text">{{ request.to_user.email }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Incoming Requests -->
+        <h2>Incoming Requests</h2>
+        <div class="row">
+            {% for request in incoming_requests %}
+                <div class="col-md-4">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ request.from_user.username }}</h5>
+                            <p class="card-text">{{ request.from_user.email }}</p>
+                            <form method="post" action="{% url 'users:accept_friend_request' request.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary">Accept</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

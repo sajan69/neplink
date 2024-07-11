@@ -3,10 +3,11 @@ from django.contrib import admin
 from .models import Post, Like, Comment
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ['user', 'content_text', 'content_video', 'content_image', 'content_audio', 'feeling_status', 'created_at']
-    list_filter = ['user', 'created_at']
-    search_fields = ['user', 'content_text', 'feeling_status']
-    list_per_page = 10
+    list_display = ('user', 'caption', 'created_at')
+    search_fields = ('caption', 'user__username')
+    list_filter = ('created_at',)
+    list_per_page = 20
+    
 
 admin.site.register(Post, PostAdmin)
 admin.site.register(Like)

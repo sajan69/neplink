@@ -1,0 +1,25 @@
+{% load socialaccount %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+    <h2>Login</h2>
+    <form method="post" action="{% url 'users:login' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Login</button>
+    </form>
+    <div>
+        <h3>Or</h3>
+        <a href="{% provider_login_url 'google' %}">Login with Google</a>
+    </div>
+    <div>
+        <p>Don't have an account? <a href="{% url 'users:register' %}">Register here</a></p>
+    </div>
+    <div>
+        <p>Forgot your password? <a href="{% url 'users:forgot_password' %}">Reset here</a></p>
+    </div>
+</body>
+</html>

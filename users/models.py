@@ -1,28 +1,22 @@
 # users/models.py
-from django.contrib.auth.models import AbstractUser, Group, Permission
+
+from datetime import timezone
 from django.db import models
+from django.contrib.auth.models import User
+from django.utils import timezone
 
-class User(AbstractUser):
-    bio = models.TextField(blank=True, null=True)
-    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
-    friends = models.ManyToManyField('self', through='Friendship', symmetrical=False)
-    blocked_users = models.ManyToManyField('self', symmetrical=False, related_name='blocked_by', blank=True)
 
-    groups = models.ManyToManyField(
-        Group,
-        related_name='custom_user_set',  # Custom related name
-        blank=True,
-        help_text=('The groups this user belongs to. A user will get all permissions granted to each of their groups.'),
-        related_query_name='user',
-    )
-    user_permissions = models.ManyToManyField(
-        Permission,
-        related_name='custom_user_set',  # Custom related name
-        blank=True,
-        help_text=('Specific permissions for this user.'),
-        related_query_name='user',
-    )
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    # Add additional fields as needed
+    bio = models.TextField(blank=True)
+    avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    # Add other profile-related fields
+
+    def __str__(self):
+        return self.user.username
 class Friendship(models.Model):
     from_user = models.ForeignKey(User, related_name='friendships', on_delete=models.CASCADE)
     to_user = models.ForeignKey(User, related_name='friend_requests', on_delete=models.CASCADE)
@@ -31,3 +25,14 @@ class Friendship(models.Model):
 
     class Meta:
         unique_together = ('from_user', 'to_user')
+
+    def __str__(self):
+        return f"{self.from_user} -> {self.to_user} ({'Accepted' if self.accepted else 'Pending'})"
+
+class OTP(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    otp_value = models.CharField(max_length=10)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.otp_value}"
