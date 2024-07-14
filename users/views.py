@@ -17,6 +17,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.http import HttpResponseRedirect
 
 from .forms import ForgotPasswordForm, OTPVerificationForm, CustomUserCreationForm
 from .models import OTP, Friendship, User  # Ensure User is imported from your app's models
@@ -316,15 +317,13 @@ def send_friend_request(request, user_id):
         if not created:
             # If the request already exists, handle accordingly
             pass
-    return redirect('users:profile', user_id=to_user.id)
-
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 @login_required
 def accept_friend_request(request, friendship_id):
     friendship = get_object_or_404(Friendship, id=friendship_id, to_user=request.user)
     friendship.accepted = True
     friendship.save()
-    return redirect('users:profile', user_id=request.user.id)
-
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 @login_required
 def remove_friend(request, user_id):
     user = get_object_or_404(User, id=user_id)
@@ -335,4 +334,4 @@ def remove_friend(request, user_id):
         friendship = Friendship.objects.filter(from_user=user, to_user=request.user, accepted=True).first()
         if friendship:
             friendship.delete()
-    return redirect('users:profile', user_id=user.id)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))

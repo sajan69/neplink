@@ -73,10 +73,10 @@
 </div>
 
 <div class="container">
-  <h1 class="mt-4">NepLink's Homepage</h1>
 
   <!-- Post creation form -->
    {% if user.is_authenticated %}
+   <h1 class="mt-4">{{ user.username }}'s Homepage</h1>
   <form method="post" action="" enctype="multipart/form-data" class="mb-4">
       {% csrf_token %}
       <div class="form-group">
@@ -95,6 +95,10 @@
           <button type="submit" class="btn btn-primary">Post</button>
       </div>
   </form>
+  {% else %}
+  <h1 class="mt-4">NepLink's Homepage</h1>
+  <p>Welcome to NepLink! Please sign in or sign up to post and interact with other users.</p>
+
   {% endif %}
   {% load custom_filters %}
   {% for post in posts %}

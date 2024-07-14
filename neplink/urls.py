@@ -55,6 +55,7 @@ urlpatterns = [
     path('', include('posts.urls'),name='home'),
     path('chat/', include('chat.urls'),name='chat'),
     path('users/', include('users.urls'),name='users'), 
+    
 ]
 
 # Add static and media URLs in development

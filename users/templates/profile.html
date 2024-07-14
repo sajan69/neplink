@@ -8,6 +8,9 @@
 <body>
     <div class="container">
         <h1>{{ profile_user.username }}'s Profile</h1>
+        {% if request.user != profile_user %}
+            <a href="{% url 'users:profile' request.user.id %}">Back to your profile</a>
+        {% endif %}
         
         <!-- Display user details -->
         <p><strong>Email:</strong> {{ profile_user.email }}</p>
@@ -43,8 +46,16 @@
                 <div class="col-md-4">
                     <div class="card mb-3">
                         <div class="card-body">
-                            <h5 class="card-title">{{ friend.username }}</h5>
+                            <a href="{% url 'users:profile' friend.id %}"><h5 class="card-title">{{ friend.username }}</h5></a>
                             <p class="card-text">{{ friend.email }}</p>
+                            {% if request.user == profile_user %}
+                                
+                            <a href="{% url 'chat:initiate_chat' friend.id %}">Chat</a>
+                            <form method="post" action="{% url 'users:remove_friend' friend.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Remove Friend</button>
+                            </form>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -52,6 +63,7 @@
         </div>
         
         <!-- Pending Requests Sent -->
+        {% if request.user == profile_user %}
         <h2>Pending Requests Sent</h2>
         <div class="row">
             {% for request in pending_requests_sent %}
@@ -67,6 +79,7 @@
         </div>
         
         <!-- Incoming Requests -->
+        
         <h2>Incoming Requests</h2>
         <div class="row">
             {% for request in incoming_requests %}
@@ -84,6 +97,7 @@
                 </div>
             {% endfor %}
         </div>
+        {% endif %}
     </div>
     <!-- Bootstrap JS, Popper.js, and jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

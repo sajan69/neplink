@@ -75,10 +75,12 @@ TEMPLATES = [
 ASGI_APPLICATION = 'neplink.asgi.application'
 CHANNEL_LAYERS = {
     'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer',
-    }
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],  # Adjust host and port if necessary
+        },
+    },
 }
-
 WSGI_APPLICATION = 'neplink.wsgi.application'
 
 # Database
