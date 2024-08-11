@@ -33,6 +33,7 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     pagination_class = pagination.PageNumberPagination
     serializer_class = UserSerializer
+    permission_classes = [AllowAny]
 
 class FriendshipListView(generics.ListAPIView):
     serializer_class = FriendSerializer
