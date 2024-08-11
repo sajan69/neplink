@@ -1,7 +1,7 @@
 from rest_framework import generics, status,pagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.shortcuts import get_object_or_404
 from .models import Post, Like, Comment, CommentLike, CommentReply, ReplyLike
 from .serializers import PostSerializer, CommentSerializer, CommentReplySerializer
@@ -10,7 +10,8 @@ class PostListCreateAPIView(generics.ListCreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     pagination_class = pagination.PageNumberPagination
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
+    
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -18,7 +19,8 @@ class PostListCreateAPIView(generics.ListCreateAPIView):
 class PostDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
+    
 
 class LikePostAPIView(APIView):
     permission_classes = [IsAuthenticated]
@@ -44,7 +46,8 @@ class CommentCreateAPIView(APIView):
 class CommentDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
+   
 
 class LikeCommentAPIView(APIView):
     permission_classes = [IsAuthenticated]
@@ -70,7 +73,8 @@ class CommentReplyCreateAPIView(APIView):
 class CommentReplyDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = CommentReply.objects.all()
     serializer_class = CommentReplySerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
+    
 
 class LikeReplyAPIView(APIView):
     permission_classes = [IsAuthenticated]
