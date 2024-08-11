@@ -54,8 +54,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
-  
-
+    
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -196,9 +195,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.RawMediaCloudinaryStorage'
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME'),
-    'API_KEY': config('CLOUDINARY_API_KEY'),
-    'API_SECRET': config('CLOUDINARY_API_SECRET'),
+    'CLOUD_NAME': 'ddshvkxnx',
+    'API_KEY': '253238841645891',
+    'API_SECRET': 'eptOw4uBXqa1Td5wqW0-oqEazmQ',
 }
 
 MEDIA_URL = '/media/'  # URL to access media files

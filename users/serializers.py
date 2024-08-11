@@ -1,10 +1,16 @@
 from rest_framework import serializers
-from .models import OTP, User, Friendship
+from .models import OTP, User, Friendship,Profile
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ['bio', 'avatar', 'created_at']
 
 class UserSerializer(serializers.ModelSerializer):
+    profile = ProfileSerializer()
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'password', 'first_name', 'last_name']
+        fields = ['id', 'username', 'email', 'password', 'first_name', 'last_name', 'profile'] 
 
 
 

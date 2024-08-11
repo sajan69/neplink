@@ -24,10 +24,19 @@ from .models import OTP, Friendship, User  # Ensure User is imported from your a
 from .serializers import (
     UserSerializer, RegisterSerializer, LoginSerializer, OTPSerializer,
     ForgotPasswordSerializer, OTPVerificationSerializer, PasswordResetSerializer,
-    PasswordResetConfirmSerializer, FriendSerializer, FriendshipSerializer
+    PasswordResetConfirmSerializer, FriendSerializer, FriendshipSerializer,ProfileSerializer
 )
 
 
+class ProfileViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    pagination_class = pagination.PageNumberPagination
+    serializer_class = ProfileSerializer
+    permission_classes = [AllowAny]
+    def get_queryset(self):
+        user = self.request.user
+        return User.objects.filter(id=user.id)
+    
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()

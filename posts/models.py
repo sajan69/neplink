@@ -22,6 +22,12 @@ class Post(models.Model):
 
     def __str__(self):
         return self.caption[:20]
+    
+    def get_comments(self):
+        return self.comments.all()
+    
+    def get_likes(self):
+        return self.likes.all()
 
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
