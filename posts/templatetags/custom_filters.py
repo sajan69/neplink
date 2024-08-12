@@ -4,7 +4,7 @@ register = template.Library()
 
 @register.filter(name='is_image')
 def is_image(file_url):
-    return file_url.lower().endswith(('.jpg', '.jpeg', '.png', '.gif'))
+    return file_url.lower().endswith(('.jpg', '.jpeg', '.png', '.gif','.webp'))
 
 @register.filter(name='is_video')
 def is_video(file_url):
