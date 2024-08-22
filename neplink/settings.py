@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -197,6 +197,11 @@ CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'ddshvkxnx',
     'API_KEY': '253238841645891',
     'API_SECRET': 'eptOw4uBXqa1Td5wqW0-oqEazmQ',
+    'SECURE': True,
+    "MEDIA_TAG": "media",
+    "STATIC_TAG": "static",
+    "PREFIX": "media",
+    
 }
 
 MEDIA_URL = '/media/'
