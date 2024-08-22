@@ -25,6 +25,8 @@ from drf_yasg import openapi
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework.authtoken.views import obtain_auth_token
+from django.views.static import serve
+from django.urls import re_path
 
 # Create a router and register viewsets with it
 router = DefaultRouter()
@@ -58,6 +60,8 @@ urlpatterns = [
     path('', include('posts.urls'),name='home'),
     path('chat/', include('chat.urls'),name='chat'),
     path('users/', include('users.urls'),name='users'), 
+    re_path(r'^media/(?P<path>.*)$', serve,{'document_root':       settings.MEDIA_ROOT}), 
+    re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}), 
     
 ]
 
